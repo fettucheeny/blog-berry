@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	</head>
+	<body>
+		<h2>{{ post.title }}</h2>
+			<p>posted by {{ post.author }} on {{ post.publish_date }}</p>
+			<p style="margin-left: 40px">{{ post.text }}</p>
+			<a href="{% url 'blog:index' %}" class="btn btn-success">Back</a> 
+			<a href="{% url 'blog:edit-post' post.id %}" class="btn btn-primary">Edit Post</a>
+			<a href="{% url 'blog:delete-post' post.id %}" class="btn btn-danger">Delete Post</a>
+			<br /><br />
+		<h5>Comments:</h5>
+		    {% for comment in comments %}
+		    	<p>On {{comment.date }}<b> {{ comment.user }} </b> wrote:</p>
+		    	<p style="margin-left: 40px">{{ comment.text }}</p>
+		    	<a href="{% url 'blog:delete-comment' comment.id %}" class="btn btn-danger">Delete Comment</a>
+		    {% empty %}
+				<p>No comments yet</p>
+		    {% endfor %}
+		<h5>Leave a comment:</h5>
+	    	<form role="form" action="" method="POST">
+	       	 	{% csrf_token %}
+	       	 	<div>
+					<p>Your Name {{ comment_form.user }}</p> 
+					<p>Comment {{ comment_form.text }}</p>
+				</div>
+				<button class="btn btn-success" type="submit">Submit</button>
+			</form>
+	</body>
+</html>
